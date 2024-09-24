@@ -124,16 +124,16 @@ pub fn main() !void {
     defer file.close();
     //
     const file_len: usize = std.math.cast(usize, try file.getEndPos()) orelse std.math.maxInt(usize);
-    const mapped_mem = try std.os.mmap(
+    const mapped_mem = try std.posix.mmap(
         null,
         file_len,
-        std.os.PROT.READ,
-        std.os.MAP.PRIVATE,
+        std.posix.PROT.READ,
+        .{ .TYPE = .PRIVATE },
         file.handle,
         0,
     );
-    defer std.os.munmap(mapped_mem);
-    if (builtin.os.tag == .linux) try std.os.madvise(mapped_mem.ptr, file_len, std.os.MADV.HUGEPAGE);
+    defer std.posix.munmap(mapped_mem);
+    if (builtin.os.tag == .linux) try std.posix.madvise(mapped_mem.ptr, file_len, std.os.linux.MADV.HUGEPAGE);
 
     var tp: std.Thread.Pool = undefined;
     try tp.init(.{ .allocator = std.heap.c_allocator });

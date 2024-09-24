@@ -10,7 +10,7 @@ I decided to implement this in Zig as a learning experience.
 # Run
 
 First, you'll need a Zig binary from here: https://ziglang.org/download/.
-I'm using the latest master version: `zig-0.12.0-dev.2059`.
+I'm using the latest master version: `0.14.0-dev.56+455899668`.
 
 Then run `zig build -Doptimize=ReleaseFast` to build.
 
